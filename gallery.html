@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Arugambay Safari | Cinematic Gallery — Wildlife Moments in Sri Lanka</title>
+  <!-- Premium Fonts: Playfair Display + Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0B0B0B;
+      color: #F5F5F5;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Luxury Typography */
+    h1, h2, h3, .logo-text, .nav-links a, .btn, .gallery-caption, .section-title {
+      font-family: 'Playfair Display', serif;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #F5F5F5 0%, #C8A45D 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #F5F5F5;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.6rem; }
+    }
+
+    .section-sub {
+      color: #D6C3A1;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #1a1a1a; }
+    ::-webkit-scrollbar-thumb { background: #C8A45D; border-radius: 10px; }
+
+    /* Navbar (same as main) */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(11, 11, 11, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(200, 164, 93, 0.25);
+      padding: 0.8rem 5%;
+    }
+    .logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(200, 164, 93, 0.6);
+      transition: transform 0.3s;
+    }
+    .logo-img:hover { transform: scale(1.02); border-color: #C8A45D; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #F5F5F5;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: #C8A45D; }
+    .book-now-nav {
+      border: 1px solid #C8A45D;
+      padding: 8px 22px;
+      border-radius: 40px;
+      background: transparent;
+      transition: all 0.3s;
+    }
+    .book-now-nav:hover {
+      background: #C8A45D;
+      color: #0B0B0B !important;
+    }
+    .menu-icon {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: #F5F5F5;
+    }
+    @media (max-width: 950px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(24px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        transition: right 0.4s ease-in-out;
+        z-index: 1001;
+        border-left: 1px solid rgba(200, 164, 93, 0.3);
+      }
+      .nav-links.active { right: 0; }
+      .menu-icon { display: block; z-index: 1002; }
+    }
+
+    /* Gallery Hero Header */
+    .gallery-hero {
+      position: relative;
+      min-height: 45vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 0;
+      padding: 8rem 2rem 4rem;
+      background: radial-gradient(circle at 30% 10%, rgba(0,0,0,0.8) 0%, #0B0B0B 100%);
+      border-bottom: 1px solid rgba(200,164,93,0.2);
+    }
+    .gallery-hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.pexels.com/photos/247376/pexels-photo-247376.jpeg?auto=compress&cs=tinysrgb&w=1200');
+      background-size: cover;
+      background-position: center 40%;
+      opacity: 0.15;
+      filter: blur(3px);
+      z-index: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Gallery Grid Premium */
+    .gallery-section {
+      padding: 80px 5%;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .gallery-card {
+      background: #111111;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(200,164,93,0.15);
+    }
+    .gallery-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 35px -14px rgba(0,0,0,0.7);
+      border-color: rgba(200,164,93,0.4);
+    }
+    .gallery-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+      display: block;
+    }
+    .gallery-card:hover .gallery-img {
+      transform: scale(1.03);
+    }
+    .caption-wrapper {
+      padding: 1rem 1rem 1.2rem;
+      text-align: center;
+    }
+    .gallery-caption {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #D6C3A1;
+      border-bottom: 1px solid rgba(200,164,93,0.4);
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+
+    /* More Images Section */
+    .more-section {
+      text-align: center;
+      margin: 40px 0 60px;
+    }
+    .more-btn {
+      display: inline-block;
+      background: transparent;
+      border: 1.5px solid #C8A45D;
+      color: #C8A45D;
+      padding: 14px 42px;
+      border-radius: 60px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: rgba(200,164,93,0.05);
+    }
+    .more-btn:hover {
+      background: #C8A45D;
+      color: #0B0B0B;
+      transform: translateY(-2px);
+    }
+
+    /* Extended Gallery (initially hidden) */
+    .extended-gallery {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(200,164,93,0.25);
+      display: none;
+      animation: fadeSlideUp 0.6s ease;
+    }
+    .extended-gallery.show {
+      display: block;
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .extended-gallery .gallery-grid {
+      margin-top: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #050505;
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #1f1f1f;
+      font-size: 0.75rem;
+      color: #b9af85;
+      margin-top: 40px;
+    }
+
+    /* fade scroll animation */
+    .fade-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.2,0.9,0.4,1), transform 0.8s ease;
+    }
+    .fade-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      .gallery-section {
+        padding: 60px 4%;
+      }
+    }
+    @media (max-width: 600px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+      }
+      .gallery-hero {
+        min-height: 35vh;
+        padding: 6rem 1.5rem 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar (matching main website) -->
+<nav class="navbar" id="navbar">
+  <div class="logo">
+    <img src="logo.png" alt="Arugambay Safari" class="logo-img" onerror="this.src='https://placehold.co/200x200?text=AS&font=playfair'">
+  </div>
+  <div class="menu-icon" id="menuIcon"><i class="fas fa-bars"></i></div>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" data-section="home">Home</a>
+    <a href="index.html#packages">Packages</a>
+    <a href="gallery.html" class="active-link">Gallery</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#packages" class="book-now-nav">Book Now</a>
+  </div>
+</nav>
+
+<!-- Gallery Hero Header -->
+<section class="gallery-hero">
+  <div class="hero-content">
+    <h1>Safari Moments Gallery</h1>
+    <div class="section-sub" style="font-size: 1.1rem; margin-top: 0.8rem;">Explore the Wild Beauty of Sri Lanka</div>
+  </div>
+</section>
+
+<!-- Main Gallery Section (6 featured images) -->
+<section class="gallery-section fade-scroll" id="mainGallery">
+  <div class="section-title">
+    <h2>Featured Moments</h2>
+    <div class="section-sub">Cinematic wildlife storytelling from Kumana & lagoons</div>
+  </div>
+  <div class="gallery-grid" id="featuredGrid"></div>
+
+  <!-- More Images Button -->
+  <div class="more-section">
+    <button class="more-btn" id="viewMoreBtn">More Safari Moments</button>
+  </div>
+
+  <!-- Extended Gallery Section (hidden initially) -->
+  <div id="extendedGallery" class="extended-gallery">
+    <div class="section-title">
+      <h2>Complete Collection</h2>
+      <div class="section-sub">Every moment captured in the wild</div>
+    </div>
+    <div class="gallery-grid" id="extendedGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Arugambay Safari — Luxury Wildlife Encounters in Sri Lanka</p>
+</footer>
+
+<script>
+  // Gallery Data: 6 featured + 9 extended images (full collection)
+  const featuredImages = [
+    { src: "img1.png", caption: "Kumana Elephant Safari" },
+    { src: "img2.png", caption: "Lagoon Sunset Ride" },
+    { src: "img3.png", caption: "Wild Jeep Adventure" },
+    { src: "img4.png", caption: "Bird Watching Experience" },
+    { src: "img5.png", caption: "Nature Exploration" },
+    { src: "img6.png", caption: "Golden Hour Safari" }
+  ];
+
+  const extendedImages = [
+    { src: "img7.png", caption: "Morning Mist at Kumana" },
+    { src: "img8.png", caption: "Crocodile Sighting" },
+    { src: "img9.png", caption: "Leopard Trail" },
+    { src: "img10.png", caption: "Lagoon Bird Paradise" },
+    { src: "img11.png", caption: "Safari Jeep Silhouette" },
+    { src: "img12.png", caption: "Elephant Herd Crossing" },
+    { src: "img13.png", caption: "Mangrove Reflections" },
+    { src: "img14.png", caption: "Sunset Over National Park" },
+    { src: "img15.png", caption: "Wildlife Documentary Style" }
+  ];
+
+  // Helper to create gallery card HTML
+  function createGalleryCard(item) {
+    const card = document.createElement('div');
+    card.className = 'gallery-card';
+    card.innerHTML = `
+      <img src="${item.src}" class="gallery-img" alt="${item.caption}" loading="lazy" onerror="this.src='https://placehold.co/600x450?text=Image+Not+Found'">
+      <div class="caption-wrapper">
+        <div class="gallery-caption">${item.caption}</div>
+      </div>
+    `;
+    return card;
+  }
+
+  // Render featured grid
+  const featuredGrid = document.getElementById('featuredGrid');
+  if (featuredGrid) {
+    featuredImages.forEach(img => {
+      featuredGrid.appendChild(createGalleryCard(img));
+    });
+  }
+
+  // Render extended grid (full collection)
+  const extendedGrid = document.getElementById('extendedGrid');
+  if (extendedGrid) {
+    [...featuredImages, ...extendedImages].forEach(img => {
+      extendedGrid.appendChild(createGalleryCard(img));
+    });
+  }
+
+  // More Images Button: toggle extended gallery with smooth reveal
+  const viewMoreBtn = document.getElementById('viewMoreBtn');
+  const extendedGalleryDiv = document.getElementById('extendedGallery');
+  
+  if (viewMoreBtn && extendedGalleryDiv) {
+    viewMoreBtn.addEventListener('click', () => {
+      if (!extendedGalleryDiv.classList.contains('show')) {
+        extendedGalleryDiv.classList.add('show');
+        viewMoreBtn.textContent = 'Show Less';
+        // Smooth scroll to extended section
+        setTimeout(() => {
+          extendedGalleryDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      } else {
+        extendedGalleryDiv.classList.remove('show');
+        viewMoreBtn.textContent = 'More Safari Moments';
+        // scroll back to featured section gently
+        document.getElementById('mainGallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  // Navbar scroll effect (glass blur)
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 30) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+
+    // Fade-scroll animation
+    document.querySelectorAll('.fade-scroll').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) el.classList.add('visible');
+    });
+  });
+  document.querySelectorAll('.fade-scroll').forEach(el => el.classList.add('visible'));
+
+  // Mobile menu toggle
+  const menuIcon = document.getElementById('menuIcon');
+  const navMenu = document.getElementById('navLinks');
+  if (menuIcon && navMenu) {
+    menuIcon.addEventListener('click', () => navMenu.classList.toggle('active'));
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => navMenu.classList.remove('active'));
+    });
+  }
+
+  // Smooth navigation for internal links that go to index.html sections
+  // For links pointing to index.html#section, we handle gracefully
+  document.querySelectorAll('.nav-links a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.includes('index.html') && href.includes('#')) {
+        e.preventDefault();
+        const sectionId = href.split('#')[1];
+        if (sectionId) {
+          window.location.href = `index.html#${sectionId}`;
+        } else {
+          window.location.href = 'index.html';
+        }
+      } else if (href === 'gallery.html') {
+        // stay on gallery, just close menu
+        if (navMenu.classList.contains('active')) navMenu.classList.remove('active');
+      } else if (href && href.startsWith('#')) {
+        // internal hash on same page (not likely here)
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Preload fallback for images that might not exist: we show placeholder but keep elegant.
+  // Also set lazy loading for performance
+</script>
+</body>
+</html>

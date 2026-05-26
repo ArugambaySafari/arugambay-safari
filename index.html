@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Arugambay Safari | Premium Safari & Surf Experiences in Sri Lanka</title>
+  <!-- Premium Fonts: Playfair Display + Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #0B0B0B;
+      color: #F5F5F5;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    h1, h2, h3, .logo-text, .nav-links a, .btn, .package-name, .modal-title, .gallery-caption, .payment-label {
+      font-family: 'Playfair Display', serif;
+    }
+    h2 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #F5F5F5 0%, #C8A45D 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 768px) { h2 { font-size: 2rem; } }
+    .section-sub { color: #D6C3A1; font-weight: 300; max-width: 550px; margin: 0 auto; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #1a1a1a; }
+    ::-webkit-scrollbar-thumb { background: #C8A45D; border-radius: 10px; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(11, 11, 11, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(200, 164, 93, 0.25);
+      padding: 0.8rem 5%;
+    }
+    .logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(200, 164, 93, 0.6);
+      transition: transform 0.3s;
+    }
+    .logo-img:hover { transform: scale(1.02); border-color: #C8A45D; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: #F5F5F5; text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; transition: color 0.3s; cursor: pointer; }
+    .nav-links a:hover { color: #C8A45D; }
+    .book-now-nav { border: 1px solid #C8A45D; padding: 8px 22px; border-radius: 40px; background: transparent; transition: all 0.3s; }
+    .book-now-nav:hover { background: #C8A45D; color: #0B0B0B !important; }
+    .menu-icon { display: none; font-size: 1.6rem; cursor: pointer; color: #F5F5F5; }
+    @media (max-width: 950px) {
+      .nav-links {
+        position: fixed; top: 0; right: -100%; width: 70%; max-width: 300px; height: 100vh;
+        background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(24px); flex-direction: column;
+        justify-content: center; gap: 2rem; transition: right 0.4s ease-in-out; z-index: 1001;
+        border-left: 1px solid rgba(200, 164, 93, 0.3);
+      }
+      .nav-links.active { right: 0; }
+      .menu-icon { display: block; z-index: 1002; }
+    }
+
+    /* Hero Slideshow */
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center 30%;
+      opacity: 0;
+      transition: opacity 1.8s ease-in-out;
+      transform: scale(1);
+      animation: kenBurnsSlow 14s infinite alternate;
+    }
+    .slide.active { opacity: 1; z-index: 1; }
+    @keyframes kenBurnsSlow { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.35) 100%);
+      z-index: 2;
+    }
+    .hero-content {
+      position: absolute;
+      z-index: 3;
+      bottom: 22%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 0 1.8rem;
+      animation: fadeUp 1.2s ease;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-content h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; margin-bottom: 0.8rem; text-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+    .hero-sub { font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 400; color: #D6C3A1; }
+    .dynamic-tag { font-size: 0.9rem; font-weight: 300; margin-bottom: 1.8rem; color: #e6d5a8; letter-spacing: 1px; }
+    .btn-group { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 12px 32px; font-family: 'Playfair Display', serif; font-weight: 600;
+      border-radius: 50px; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; font-size: 0.9rem; letter-spacing: 1px;
+    }
+    .btn-primary { background: #C8A45D; color: #0B0B0B; box-shadow: 0 4px 15px rgba(200,164,93,0.2); }
+    .btn-primary:hover { background: #b28c45; transform: translateY(-3px); }
+    .btn-outline { border: 1.5px solid #C8A45D; color: #F5F5F5; background: transparent; }
+    .btn-outline:hover { background: rgba(200,164,93,0.12); transform: translateY(-3px); }
+    @media (max-width: 700px) {
+      .hero-content h1 { font-size: 2rem; letter-spacing: 1px; }
+      .hero-sub { font-size: 0.9rem; }
+      .btn { padding: 10px 20px; font-size: 0.8rem; }
+    }
+
+    section { padding: 100px 5%; }
+    .section-title { text-align: center; margin-bottom: 60px; }
+
+    /* Packages Grid */
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+    }
+    .package-card {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      transition: transform 0.5s ease;
+      box-shadow: 0 25px 40px -15px rgba(0,0,0,0.5);
+    }
+    .package-card:hover { transform: translateY(-6px); }
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%);
+      border-radius: 28px;
+    }
+    .card-content-glass {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 1.8rem;
+      height: 100%;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .package-name { font-size: 1.9rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .package-desc { font-size: 0.85rem; color: #D6C3A1; margin-bottom: 1rem; line-height: 1.5; }
+    .feature-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.8rem 0; }
+    .feature-badge {
+      background: rgba(200,164,93,0.2);
+      backdrop-filter: blur(4px);
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      border: 0.5px solid rgba(200,164,93,0.5);
+    }
+    .dropdown-select {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid #C8A45D;
+      color: #F5F5F5;
+      border-radius: 60px;
+      font-family: 'Poppins', sans-serif;
+      margin: 12px 0 8px;
+    }
+    .price-animate {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #C8A45D;
+      text-align: center;
+      margin: 8px 0;
+      transition: transform 0.15s;
+    }
+    .book-card-btn {
+      width: 100%;
+      background: rgba(200,164,93,0.9);
+      border: none;
+      padding: 12px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      cursor: pointer;
+      transition: 0.25s;
+      margin-top: 8px;
+      color: #0B0B0B;
+    }
+    .book-card-btn:hover { background: #C8A45D; transform: scale(0.98); }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .gallery-item { background: #111; border-radius: 20px; overflow: hidden; transition: 0.3s; }
+    .gallery-img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.6s; }
+    .gallery-item:hover .gallery-img { transform: scale(1.03); }
+    .gallery-caption { padding: 1rem 0 0.8rem; text-align: center; font-size: 1rem; font-weight: 500; color: #D6C3A1; border-bottom: 1px solid rgba(200,164,93,0.4); display: inline-block; margin: 0 auto; }
+    .caption-wrapper { display: flex; justify-content: center; }
+    .more-btn-container { text-align: center; margin-top: 3rem; }
+    .more-btn {
+      display: inline-block; background: transparent; border: 1.5px solid #C8A45D; color: #C8A45D;
+      padding: 12px 40px; border-radius: 60px; font-family: 'Playfair Display', serif; font-weight: 600;
+      font-size: 1rem; cursor: pointer; transition: all 0.3s;
+    }
+    .more-btn:hover { background: #C8A45D; color: #0B0B0B; transform: translateY(-2px); }
+    @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
+    @media (max-width: 600px) { .gallery-grid { grid-template-columns: 1fr; } }
+
+    /* About */
+    .about-grid { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; }
+    .about-text { flex: 1; }
+    .about-text p { margin: 1.2rem 0; line-height: 1.7; color: #D6C3A1; }
+    .about-img { flex: 1; height: 400px; background-size: cover; border-radius: 28px; filter: brightness(0.85); background-image: url('https://images.pexels.com/photos/1273389/pexels-photo-1273389.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+    @media (max-width: 850px) { .about-grid { flex-direction: column; } }
+
+    /* Modal */
+    .modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.94); backdrop-filter: blur(16px); z-index: 2000;
+      justify-content: center; align-items: center;
+    }
+    .modal-card {
+      background: #121212; max-width: 580px; width: 90%; max-height: 90vh; overflow-y: auto;
+      border-radius: 36px; padding: 2rem; border: 1px solid rgba(200,164,93,0.5); animation: modalGlide 0.4s ease;
+    }
+    @keyframes modalGlide { from { opacity: 0; transform: scale(0.96) translateY(15px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .close-modal { float: right; font-size: 28px; cursor: pointer; color: #C8A45D; }
+    .modal-card input, .modal-card select, .modal-card textarea {
+      width: 100%; padding: 12px 16px; margin: 8px 0; background: #1e1e1e;
+      border: 1px solid #2c2c2c; color: #F5F5F5; border-radius: 60px; font-family: 'Poppins', sans-serif;
+    }
+    .modal-card textarea { border-radius: 24px; }
+    .time-select { margin: 12px 0; }
+    .time-select label { margin-right: 20px; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+    .time-select input { width: auto; margin: 0; }
+
+    .payment-section { margin: 18px 0 12px; border-top: 1px solid rgba(200,164,93,0.3); padding-top: 16px; }
+    .payment-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #C8A45D; }
+    .payment-option { margin: 10px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .payment-option input { width: 18px; height: 18px; accent-color: #C8A45D; margin: 0; }
+    .bank-details { background: #0a0a0a; padding: 14px; border-radius: 20px; margin-top: 12px; border-left: 3px solid #C8A45D; font-size: 0.8rem; }
+    .bank-details p { margin: 4px 0; color: #D6C3A1; }
+
+    .toast-success {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: #1a1a1a; backdrop-filter: blur(20px); padding: 14px 28px; border-radius: 80px;
+      display: flex; align-items: center; gap: 12px; z-index: 3000; color: #C8A45D;
+      border-left: 4px solid #25D366; opacity: 0; transition: 0.2s; pointer-events: none;
+    }
+    .jeep-icon { animation: jeepMove 0.6s infinite alternate; }
+    @keyframes jeepMove { 0% { transform: translateX(0); } 100% { transform: translateX(5px); } }
+    footer { background: #050505; text-align: center; padding: 30px; border-top: 1px solid #1f1f1f; font-size: 0.75rem; color: #b9af85; }
+    .fade-scroll { opacity: 0; transform: translateY(25px); transition: opacity 0.9s cubic-bezier(0.2,0.9,0.4,1), transform 0.9s ease; }
+    .fade-scroll.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="logo"><img src="logo.png" alt="Arugambay Safari" class="logo-img" onerror="this.src='https://placehold.co/200x200?text=AS&font=playfair'"></div>
+  <div class="menu-icon" id="menuIcon"><i class="fas fa-bars"></i></div>
+  <div class="nav-links" id="navLinks">
+    <a data-section="home">Home</a>
+    <a data-section="packages">Packages</a>
+    <a data-section="gallery">Gallery</a>
+    <a data-section="about">About</a>
+    <a class="book-now-nav" id="navBookNowBtn">Book Now</a>
+  </div>
+</nav>
+
+<!-- Hero Slideshow -->
+<section id="home" class="hero">
+  <div class="slide active" style="background-image: url('bg1.png');"></div>
+  <div class="slide" style="background-image: url('bg2.png');"></div>
+  <div class="slide" style="background-image: url('bg3.png');"></div>
+  <div class="slide" style="background-image: url('bg4.png');"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Experience The Wild Side of Sri Lanka</h1>
+    <div class="hero-sub">Premium Safari & Surf Experiences from Arugam Bay</div>
+    <div class="dynamic-tag" id="dynamicTagline">Wildlife Close Encounters</div>
+    <div class="btn-group">
+      <a class="btn btn-primary explore-packages-btn">Explore Packages</a>
+      <a class="btn btn-outline book-safari-hero">Book Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- Packages Section -->
+<section id="packages" class="fade-scroll">
+  <div class="section-title"><h2>Select Your Experience</h2><div class="section-sub">Premium adventures in nature & ocean</div></div>
+  <div class="packages-grid" id="packagesContainer"></div>
+</section>
+
+<!-- Gallery Section -->
+<section id="gallery" class="fade-scroll">
+  <div class="section-title"><h2>Safari Gallery</h2><div class="section-sub">Moments that define the wild</div></div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+  <div class="more-btn-container"><button class="more-btn" id="moreImagesBtn">More Images</button></div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="fade-scroll">
+  <div class="section-title"><h2>Beyond The Ordinary</h2></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p><strong>Arugambay Safari</strong> delivers intimate luxury wildlife, lagoon, and surf experiences. With expert local guides, private vehicles, and <strong>complimentary hotel pickup & drop</strong> from Arugam Bay area, every journey blends adventure with comfort.</p>
+      <p>From leopards at dawn to crocodiles at sunset, and surfing Arugam Bay's famous waves — we craft personalized adventures that respect nature and create lifelong memories.</p>
+    </div>
+    <div class="about-img"></div>
+  </div>
+</section>
+
+<footer><p>© 2025 Arugambay Safari — Premium Safari & Surf Experiences in Sri Lanka</p></footer>
+
+<!-- Booking Modal -->
+<div id="bookingModal" class="modal">
+  <div class="modal-card">
+    <span class="close-modal">&times;</span>
+    <h3 style="margin-bottom: 1rem; font-family:'Playfair Display';">Reserve Your Experience</h3>
+    <form id="bookingForm">
+      <input type="text" id="fullName" placeholder="Full Name" required>
+      <input type="text" id="country" placeholder="Country" required>
+      <input type="tel" id="whatsNumber" placeholder="WhatsApp Number" required>
+      <input type="date" id="bookingDate" required>
+      <div id="timeOptionsContainer" class="time-select"></div>
+      <input type="text" id="pickupLocation" placeholder="Pickup Location" value="Arugam Bay" required>
+      <input type="number" id="modalPersons" placeholder="Persons" readonly>
+      <input type="text" id="selectedPackageField" readonly>
+      <textarea id="specialNotes" rows="2" placeholder="Special requests (dietary, wave level for surf...)"></textarea>
+      <div class="payment-section">
+        <div class="payment-title">Select Payment Method</div>
+        <label class="payment-option"><input type="radio" name="paymentMethod" value="Bank Transfer" id="bankTransferRadio"> <span class="payment-label">Bank Transfer</span></label>
+        <div id="bankDetailsBlock" style="display: none;" class="bank-details">
+          <p>🏦 <strong>Bank:</strong> Sample Bank of Ceylon</p><p>📌 <strong>Account Name:</strong> Arugambay Safari Pvt Ltd</p>
+          <p>🔢 <strong>Account Number:</strong> 1234-5678-9012-345</p><p>📍 <strong>Branch:</strong> Colombo Main</p>
+          <p>📱 <strong>Instructions:</strong> Please send payment proof via WhatsApp.</p>
+        </div>
+        <label class="payment-option"><input type="radio" name="paymentMethod" value="Pay on Pickup (Cash)" id="cashRadio"> <span class="payment-label">Pay on Pickup (Cash)</span></label>
+        <div id="cashInfo" style="display: none; font-size: 0.75rem; color: #b9af85; margin-top: 5px; margin-left: 30px;">Pay directly to our driver during pickup.</div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 12px;">Confirm & WhatsApp</button>
+    </form>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-success"><span class="jeep-icon"><i class="fas fa-truck-pickup"></i></span> Booking confirmed • Redirecting to WhatsApp...</div>
+
+<script>
+  // Package Data
+  const packagesData = [
+    { name: "Kumana Safari", desc: "Explore Sri Lanka's breathtaking wildlife with a premium private safari experience.", features: ["Private Safari", "Professional Guide", "Pickup Included", "Drop Included"], maxPersons: 7, pricing: {1:34000,2:39000,3:43000,4:49000,5:54000,6:60000,7:64000}, img: "pg1.png", timeType: "kumana" },
+    { name: "Lagoon Safari", desc: "Relax through peaceful lagoon waters and discover nature from a different perspective.", features: ["Lagoon Experience", "Pickup Included", "Drop Included", "Nature Ride"], maxPersons: 6, pricing: {1:10000,2:15000,3:20000,4:25000,5:30000,6:35000}, img: "pg2.png", timeType: "lagoon" },
+    { name: "Surf Lesson", desc: "Learn surfing with professional instructors in the beautiful waves of Arugam Bay.", features: ["Professional Instructor", "Beginner Friendly", "Pickup Included", "Drop Included"], maxPersons: 5, pricing: {1:15000,2:25000,3:35000,4:40000,5:45000}, img: "pg3.png", timeType: "surf" }
+  ];
+
+  const galleryItems = [
+    { img: "img1.png", caption: "Kumana Elephant Safari" }, { img: "img2.png", caption: "Lagoon Sunset Ride" },
+    { img: "img3.png", caption: "Wild Jeep Adventure" }, { img: "img4.png", caption: "Bird Watching Experience" },
+    { img: "img5.png", caption: "Nature Exploration" }, { img: "img6.png", caption: "Golden Hour Safari" }
+  ];
+
+  let currentSelectedPackage = null;
+
+  function renderPackages() {
+    const container = document.getElementById('packagesContainer');
+    container.innerHTML = '';
+    packagesData.forEach((pkg, idx) => {
+      const max = pkg.maxPersons;
+      let optionsHtml = '';
+      for (let i = 1; i <= max; i++) optionsHtml += `<option value="${i}">${i} Person${i > 1 ? 's' : ''}</option>`;
+      const featuresHtml = pkg.features.map(f => `<span class="feature-badge">${f}</span>`).join('');
+      const card = document.createElement('div');
+      card.className = 'package-card';
+      card.style.backgroundImage = `url('${pkg.img}')`;
+      card.style.backgroundSize = "cover";
+      card.innerHTML = `
+        <div class="card-overlay"></div>
+        <div class="card-content-glass">
+          <div class="package-name">${pkg.name}</div>
+          <div class="package-desc">${pkg.desc}</div>
+          <div class="feature-list">${featuresHtml}</div>
+          <select class="dropdown-select" data-pkg-index="${idx}">${optionsHtml}</select>
+          <div class="price-animate" id="priceAnim-${idx}">LKR ${pkg.pricing[1].toLocaleString()}</div>
+          <button class="book-card-btn" data-pkg-name="${pkg.name}" data-pkg-index="${idx}">Book Now</button>
+        </div>
+      `;
+      container.appendChild(card);
+      const selectEl = card.querySelector('.dropdown-select');
+      const priceDiv = document.getElementById(`priceAnim-${idx}`);
+      const updatePrice = () => {
+        const persons = parseInt(selectEl.value);
+        const newPrice = pkg.pricing[persons];
+        if (priceDiv) { priceDiv.style.transform = "scale(1.05)"; setTimeout(() => priceDiv.style.transform = "scale(1)", 150); priceDiv.innerText = `LKR ${newPrice.toLocaleString()}`; }
+      };
+      selectEl.addEventListener('change', updatePrice);
+      updatePrice();
+      card.querySelector('.book-card-btn').addEventListener('click', () => {
+        const personsSelected = parseInt(selectEl.value);
+        currentSelectedPackage = pkg;
+        document.getElementById('selectedPackageField').value = pkg.name;
+        document.getElementById('modalPersons').value = personsSelected;
+        updateTimeOptions(pkg.timeType);
+        document.getElementById('bookingModal').style.display = 'flex';
+      });
+    });
+  }
+
+  function updateTimeOptions(timeType) {
+    const container = document.getElementById('timeOptionsContainer');
+    if (timeType === 'kumana') {
+      container.innerHTML = `
+        <label><input type="radio" name="timeRange" value="5:30 AM – 12:00 PM" checked> 5:30 AM – 12:00 PM</label>
+        <label><input type="radio" name="timeRange" value="1:00 PM – 6:30 PM"> 1:00 PM – 6:30 PM</label>
+      `;
+    } else if (timeType === 'lagoon') {
+      container.innerHTML = `
+        <label><input type="radio" name="timeRange" value="Morning" checked> Morning</label>
+        <label><input type="radio" name="timeRange" value="Evening"> Evening</label>
+      `;
+    } else {
+      container.innerHTML = `
+        <label><input type="radio" name="timeRange" value="Morning Session (9:00 AM)" checked> Morning Session (9:00 AM)</label>
+        <label><input type="radio" name="timeRange" value="Afternoon Session (2:00 PM)"> Afternoon Session (2:00 PM)</label>
+      `;
+    }
+  }
+
+  function renderGallery() {
+    const galleryGrid = document.getElementById('galleryGrid');
+    galleryGrid.innerHTML = '';
+    galleryItems.forEach(item => {
+      const div = document.createElement('div'); div.className = 'gallery-item';
+      div.innerHTML = `<img src="${item.img}" class="gallery-img" alt="${item.caption}" loading="lazy" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found'"><div class="caption-wrapper"><div class="gallery-caption">${item.caption}</div></div>`;
+      galleryGrid.appendChild(div);
+    });
+  }
+
+  // Hero slideshow
+  let slides = document.querySelectorAll('.slide');
+  let currentIdx = 0;
+  const taglines = ["Wildlife Close Encounters", "Golden Hour Adventures", "Ocean & Jungle Experiences"];
+  let tagIdx = 0;
+  if (slides.length) {
+    setInterval(() => {
+      slides[currentIdx].classList.remove('active');
+      currentIdx = (currentIdx + 1) % slides.length;
+      slides[currentIdx].classList.add('active');
+      tagIdx = (tagIdx + 1) % taglines.length;
+      const tagEl = document.getElementById('dynamicTagline');
+      if (tagEl) { tagEl.style.opacity = '0'; setTimeout(() => { tagEl.innerText = taglines[tagIdx]; tagEl.style.opacity = '1'; }, 200); }
+    }, 5000);
+  }
+
+  function smoothScrollToSection(sectionId) { document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  document.querySelectorAll('[data-section]').forEach(link => link.addEventListener('click', (e) => { smoothScrollToSection(link.getAttribute('data-section')); if (navMenu?.classList.contains('active')) navMenu.classList.remove('active'); }));
+  document.querySelector('.explore-packages-btn')?.addEventListener('click', () => smoothScrollToSection('packages'));
+  document.querySelector('.book-safari-hero')?.addEventListener('click', () => smoothScrollToSection('packages'));
+  document.getElementById('navBookNowBtn')?.addEventListener('click', () => smoothScrollToSection('packages'));
+
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 30) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
+    document.querySelectorAll('.fade-scroll').forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('visible'); });
+  });
+  document.querySelectorAll('.fade-scroll').forEach(el => el.classList.add('visible'));
+
+  const menuIcon = document.getElementById('menuIcon'), navMenu = document.getElementById('navLinks');
+  menuIcon?.addEventListener('click', () => navMenu.classList.toggle('active'));
+  document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => navMenu?.classList.remove('active')));
+
+  document.getElementById('moreImagesBtn')?.addEventListener('click', () => { window.location.href = 'gallery.html'; });
+
+  // Modal Logic
+  const modal = document.getElementById('bookingModal'), closeModalBtn = document.querySelector('.close-modal'), bookingForm = document.getElementById('bookingForm'), toastMsg = document.getElementById('toastMsg');
+  function closeModal() { if (modal) modal.style.display = 'none'; }
+  closeModalBtn?.addEventListener('click', closeModal);
+  window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+  const bankRadio = document.getElementById('bankTransferRadio'), cashRadio = document.getElementById('cashRadio');
+  const bankDetailsBlock = document.getElementById('bankDetailsBlock'), cashInfo = document.getElementById('cashInfo');
+  if (bankRadio && cashRadio) {
+    bankRadio.addEventListener('change', () => { bankDetailsBlock.style.display = 'block'; if(cashInfo) cashInfo.style.display = 'none'; });
+    cashRadio.addEventListener('change', () => { if(cashInfo) cashInfo.style.display = 'block'; bankDetailsBlock.style.display = 'none'; });
+  }
+
+  bookingForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fullName = document.getElementById('fullName').value.trim(), country = document.getElementById('country').value.trim(), whatsNumber = document.getElementById('whatsNumber').value.trim();
+    const bookingDate = document.getElementById('bookingDate').value, pickup = document.getElementById('pickupLocation').value.trim(), persons = parseInt(document.getElementById('modalPersons').value);
+    const selectedPkg = document.getElementById('selectedPackageField').value, notes = document.getElementById('specialNotes').value;
+    const timeRange = document.querySelector('input[name="timeRange"]:checked')?.value || "Not specified";
+    let paymentMethod = '';
+    if (bankRadio?.checked) paymentMethod = 'Bank Transfer';
+    else if (cashRadio?.checked) paymentMethod = 'Pay on Pickup (Cash)';
+    if (!fullName || !country || !whatsNumber || !bookingDate || !pickup || !paymentMethod) { alert("Please fill all fields and select a payment method."); return; }
+    let priceValue = 0;
+    const pkgData = packagesData.find(p => p.name === selectedPkg);
+    if (pkgData) priceValue = pkgData.pricing[persons];
+    const message = `Hello, I would like to book an experience.%0A%0A*Package:* ${selectedPkg}%0A*Persons:* ${persons}%0A*Price:* LKR ${priceValue.toLocaleString()}%0A*Date:* ${bookingDate}%0A*Preferred Time:* ${timeRange}%0A*Pickup Location:* ${pickup}%0A%0A*Payment Method:* ${paymentMethod}%0A%0A*Name:* ${fullName}%0A*Country:* ${country}%0A*WhatsApp:* ${whatsNumber}%0A*Notes:* ${notes || "—"}`;
+    const whatsappLink = `https://wa.me/94751604563?text=${message}`;
+    toastMsg.style.opacity = '1';
+    setTimeout(() => { toastMsg.style.opacity = '0'; window.open(whatsappLink, '_blank'); closeModal(); bookingForm.reset(); if(bankDetailsBlock) bankDetailsBlock.style.display = 'none'; if(cashInfo) cashInfo.style.display = 'none'; document.getElementById('pickupLocation').value = 'Arugam Bay'; }, 1300);
+  });
+
+  renderPackages(); renderGallery(); window.dispatchEvent(new Event('scroll'));
+</script>
+</body>
+</html>
